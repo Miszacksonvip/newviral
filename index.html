@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080a13">
+  <title>Galeri Iklan</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#beranda" aria-label="Galeri Iklan, beranda">
+        <span class="brand-mark">▶</span>
+        <span>Galeri<span class="brand-accent">Iklan</span></span>
+      </a>
+      <button class="add-button" id="openForm" type="button"><span aria-hidden="true">＋</span> Tambah iklan</button>
+    </header>
+
+    <section class="featured" aria-label="Iklan pilihan">
+      <div class="player" id="player">
+        <div class="player-art art-featured" id="playerArt" aria-hidden="true">
+          <span class="art-orb"></span><span class="art-person"></span>
+          <span class="art-caption">VIDEO PILIHAN</span>
+        </div>
+        <video id="mainVideo" playsinline hidden></video>
+        <div class="player-overlay" id="playerOverlay">
+          <button class="play-button" id="playFeatured" type="button" aria-label="Putar video">▶</button>
+        </div>
+        <div class="video-controls" id="videoControls" hidden aria-label="Kontrol video">
+          <div class="timeline-row">
+            <span class="video-time" id="currentTime">0:00</span>
+            <input id="videoTimeline" class="video-timeline" type="range" min="0" max="1000" value="0" aria-label="Timeline video" disabled>
+            <span class="video-time" id="videoDuration">0:00</span>
+          </div>
+          <div class="control-buttons">
+            <button class="control-button" id="controlPlay" type="button" aria-label="Putar video">▶</button>
+            <button class="control-button" id="controlMute" type="button" aria-label="Matikan suara">♫</button>
+            <button class="control-button fullscreen-button" id="controlFullscreen" type="button" aria-label="Layar penuh">⛶</button>
+          </div>
+        </div>
+      </div>
+      <div class="telegram-cta">
+        <p>Ikuti update dan konten terbaru kami di Telegram.</p>
+        <a class="telegram-button" href="https://t.me/+j_mVvI1sfcNlMjhl" target="_blank" rel="noopener noreferrer">
+          <span aria-hidden="true">➤</span> JOIN CHANNEL TELEGRAM
+        </a>
+      </div>
+      <div class="featured-info">
+        <div class="featured-copy">
+          <p class="eyebrow">PILIHAN HARI INI</p>
+          <h1 id="featuredTitle">Tempat iklan pilihan Anda</h1>
+          <p class="views"><span class="eye" aria-hidden="true">◉</span> <span id="featuredViews">0</span> tayangan</p>
+        </div>
+        <button class="download-button" id="saveFeatured" type="button"><span aria-hidden="true">＋</span> Simpan iklan</button>
+      </div>
+    </section>
+
+    <section class="library" id="beranda">
+      <div class="section-heading">
+        <div>
+          <h2><span class="film-icon" aria-hidden="true">▤</span> Video lainnya</h2>
+          <p class="section-subtitle">Jelajahi iklan yang tersimpan di galeri ini.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter video">
+          <button class="filter-button active" data-filter="all" type="button">Semua</button>
+          <button class="filter-button" data-filter="saved" type="button">Iklan saya</button>
+        </div>
+      </div>
+      <div class="video-grid" id="videoGrid" aria-live="polite"></div>
+      <p class="empty-state" id="emptyState" hidden>Belum ada iklan tersimpan. Klik <strong>Tambah iklan</strong> untuk membuat yang pertama.</p>
+    </section>
+
+    <footer>Tautan iklan tersimpan di browser ini. Video dari komputer hanya tersedia selama halaman ini terbuka.</footer>
+  </main>
+
+  <dialog class="ad-dialog" id="adDialog">
+    <form id="adForm" class="ad-form">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">GALERI ANDA</p><h2>Tambah iklan</h2></div>
+        <button class="close-button" id="closeForm" type="button" aria-label="Tutup">×</button>
+      </div>
+      <label for="adTitle">Judul iklan</label>
+      <input id="adTitle" name="title" type="text" maxlength="70" placeholder="Contoh: Promo produk terbaru" required>
+      <label for="adUrl">URL video <span class="optional">(opsional)</span></label>
+      <input id="adUrl" name="url" type="url" placeholder="https://contoh.com/video.mp4">
+      <p class="form-hint">Gunakan tautan langsung ke video, atau pilih file dari komputer di bawah.</p>
+      <label for="adVideoFile">Pilih video dari komputer <span class="optional">(opsional)</span></label>
+      <input id="adVideoFile" name="videoFile" type="file" accept="video/*">
+      <p class="form-hint">File lokal hanya tersedia di browser ini selama halaman tetap terbuka; file tidak diunggah atau dibagikan.</p>
+      <label for="adThumbnail">Gambar thumbnail <span class="optional">(opsional)</span></label>
+      <input id="adThumbnail" name="thumbnailFile" type="file" accept="image/*">
+      <p class="form-hint">Pilih gambar yang akan tampil pada kotak video. Gambar disimpan di browser ini.</p>
+      <label for="adAdsterra">URL iklan Adsterra <span class="optional">(opsional)</span></label>
+      <input id="adAdsterra" name="adsterraUrl" type="url" placeholder="https://tautan-iklan-adsterra">
+      <label for="adShopee">URL produk/afiliasi Shopee <span class="optional">(opsional)</span></label>
+      <input id="adShopee" name="shopeeUrl" type="url" placeholder="https://shopee.co.id/tautan-produk">
+      <p class="form-hint">Isi satu atau kedua tautan. Tautan yang diisi akan dibuka di tab baru saat Play diklik atau timeline digeser. Izinkan pop-up agar browser tidak memblokirnya.</p>
+      <label for="adDescription">Deskripsi <span class="optional">(opsional)</span></label>
+      <textarea id="adDescription" name="description" rows="3" maxlength="180" placeholder="Tulis deskripsi singkat iklan Anda"></textarea>
+      <p class="form-error" id="formError" role="alert" hidden></p>
+      <div class="form-actions">
+        <button class="cancel-button" id="cancelForm" type="button">Batal</button>
+        <button class="download-button" type="submit">Simpan iklan</button>
+      </div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
